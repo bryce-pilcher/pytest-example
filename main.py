@@ -2,14 +2,15 @@ from typing import List
 
 import requests
 
+class APIClient:
+    def get_data(self, limit: int = 10) -> List[int]:
+        res = requests.get(f'http://www.randomnumberapi.com/api/v1.0/random?min=100&max=1000&count={limit}')
+        return res.json()
 
-def get_data(limit: int = 10) -> List[int]:
-    res = requests.get(f'http://www.randomnumberapi.com/api/v1.0/random?min=100&max=1000&count={limit}')
-    return res.json()
 
-
-def binary_search(arr, target):
-    lo, hi = 0, len(arr)  # [lo, hi)
+def binary_search(arr: List[int], target: int) -> int:
+    lo, hi = 0, len(arr) # [lo, hi)
+    arr.sort()
     while lo < hi:
         mid = (lo + hi) // 2
         if arr[mid] < target:
@@ -23,10 +24,11 @@ def binary_search(arr, target):
 
 def main(val: int):
     print("Hello from pytest-example!")
-    data = get_data()
+    data = APIClient().get_data()
     print(data)
-    idx = binary_search(data, val)
+    idx = binary_search(data, data[2])
     print(f"{'Found value' if idx >= 0 else 'Did not find value'}: {val}")
+    return idx
 
 
 if __name__ == "__main__":
